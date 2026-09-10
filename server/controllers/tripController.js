@@ -13,7 +13,6 @@ const generateTrip = async (req, res) => {
         }
 
         const { destination, inputs = {} } = req.body;
-
         if (!destination) {
             return res.status(400).json({ message: 'Destination is required' });
         }
@@ -58,8 +57,6 @@ const generateTrip = async (req, res) => {
                 responseMimeType: 'application/json',
             },
         });
-
-        console.log(response);
 
         // Parse response text into JavaScript object
         const tripData = JSON.parse(response.text);
