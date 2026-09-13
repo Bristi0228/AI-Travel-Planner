@@ -19,7 +19,7 @@ const tripSchema = new mongoose.Schema(
             duration: { type: Number, default: 3 },
             numTravelers: { type: Number, default: 1 },
             travelStyle: { type: String, default: 'Standard' },
-            interest: [String],
+            interests: [String],
             budgetMin: Number,
             budgetMax: Number,
         },

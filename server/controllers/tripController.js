@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { GoogleGenAI } from '@google/genai';
 import { v4 as uuidv4 } from 'uuid';
 import Trip from '../models/Trip.js';
@@ -104,7 +105,7 @@ const generateTrip = async (req, res) => {
 
         return res.status(201).json({
             status: 'success',
-            data: newTrip,
+            trip: newTrip || [],
         });
 
     } catch (error) {
@@ -113,6 +114,53 @@ const generateTrip = async (req, res) => {
     }
 };
 
+// Get trip history for authenticated user (token)
+const getTripHistory = async (req, res) => {
+    try {
+        const trips = await Trip.find({
+            userId: new mongoose.Types.ObjectId(req.user._id),
+        })
+        res.json({ trips: trips });
+    } catch (error) {
+        return res.status(500).json({ message: 'Failed to retrieve trip history', error: error.message });
+    }
+}
+
+// Get trip by ID for authenticated user (token)
+const getTripById = async (req, res) => {
+    try {
+        const trips = await Trip.findOne({
+            _id: req.params.id,
+            userId: req.user._id,
+        })
+        if (!trips) {
+            return res.status(404).json({ message: 'Trip not found' });
+        }
+        res.json({ trip: trips });
+    } catch (error) {
+        return res.status(500).json({ message: 'Failed to retrieve trip history', error: error.message });
+    }
+}
+
+const toggleShare = async (req, res) => {
+    try {
+        const trips = await Trip.findOne({
+            _id: req.params.id,
+            userId: req.user._id,
+        })
+        if (!trips) {
+            return res.status(404).json({ message: 'Trip not found' });
+        }
+        res.json({ trip: trips });
+    } catch (error) {
+        return res.status(500).json({ message: 'Failed to retrieve trip history', error: error.message });
+    }
+}
+
+
 export default {
     generateTrip,
+    getTripHistory,
+    getTripById,
+    toggleShare
 };
