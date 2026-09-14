@@ -147,16 +147,22 @@ const toggleShare = async (req, res) => {
         const trips = await Trip.findOne({
             _id: req.params.id,
             userId: req.user._id,
-        })
+        });
         if (!trips) {
             return res.status(404).json({ message: 'Trip not found' });
         }
-        res.json({ trip: trips });
+        trips.isPublic = !trips.isPublic;
+
+        if (!trips.shareId){
+            trips.shareId = uuidv4();
+        }
+        await trips.save();
+        res.json({ isPublic: trips.isPublic, shareId: trips.shareId });
+
     } catch (error) {
         return res.status(500).json({ message: 'Failed to retrieve trip history', error: error.message });
     }
 }
-
 
 export default {
     generateTrip,
