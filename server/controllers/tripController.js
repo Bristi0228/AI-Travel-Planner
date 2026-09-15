@@ -164,6 +164,25 @@ const toggleShare = async (req, res) => {
     }
 }
 
+// Delete a trip by ID for the authenticated user
+const deleteTrip = async (req, res) => {
+    try {
+        const trip = await Trip.findOneAndDelete({
+            _id: req.params.id,
+            userId: req.user._id,
+        });
+        if (!trip) {
+            return res.status(404).json({ message: 'Trip not found or unauthorized' });
+        }
+        res.json({ message: "trip deleted successfully"})
+       
+    } catch (error) {
+        return res.status(500).json({ message: 'Failed to retrieve trip history', error: error.message });
+    }
+}
+
+
+
 export default {
     generateTrip,
     getTripHistory,
