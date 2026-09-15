@@ -142,7 +142,6 @@ const getTripById = async (req, res) => {
     }
 }
 
-// Function for sharing travel itinerary
 const toggleShare = async (req, res) => {
     try {
         const trips = await Trip.findOne({
