@@ -39,6 +39,8 @@ router.post('/generate', aiLimiter, generateValidator, validate, tripController.
 router.get('/history', tripController.getTripHistory);
 router.get('/:id', tripController.getTripById);
 router.patch('/:id/share', tripController.toggleShare);
+router.delete('/:id', tripController.deleteTrip);
+
 
 
 export default router;

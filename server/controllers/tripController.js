@@ -142,6 +142,7 @@ const getTripById = async (req, res) => {
     }
 }
 
+// Let user share travel itinerary
 const toggleShare = async (req, res) => {
     try {
         const trips = await Trip.findOne({
@@ -187,5 +188,6 @@ export default {
     generateTrip,
     getTripHistory,
     getTripById,
-    toggleShare
+    toggleShare,
+    deleteTrip
 };
