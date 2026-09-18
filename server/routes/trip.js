@@ -31,6 +31,8 @@ const generateValidator = [
     body('inputs.interests').isArray({ min: 1 }).withMessage('Please select at least one interest'),
 ];
 
+router.get("/share/:shareId", tripController.getSharedTrip);
+
 // Protecting Routes for all routes[Require JWT token]
 router.use(authMiddleware);
 
