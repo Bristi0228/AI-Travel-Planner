@@ -182,6 +182,7 @@ const deleteTrip = async (req, res) => {
     }
 }
 
+// Share anyone by ID
 const getSharedTrip = async (req, res) => {
     try {
         const trip = await Trip.findOne({
@@ -192,6 +193,7 @@ const getSharedTrip = async (req, res) => {
         if(!trip){
             return res.status(404).json({error: "This trip is either private or does not exist"});
         }
+        res.json({ trip });
     } catch (error) {
         return res.status(500).json({ message: 'Failed to retrieve shared trip', error: error.message });
     }
