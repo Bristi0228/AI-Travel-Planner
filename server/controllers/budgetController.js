@@ -23,9 +23,9 @@ const COST_MULTIPLIERS = {
         "fine-dining": 4500,   // Premium dining / luxury property restaurants
     },
 };
-
 const SEASON_FACTORS = { peak: 1.3, shoulder: 1.0, "off-peak": 0.75 };
 
+// Function for budget calcutaion
 const calculateBudget = async (req, res) => {
     try {
         // 1. Guard check for authenticated user
@@ -49,7 +49,6 @@ const calculateBudget = async (req, res) => {
 
         // 3. Exchange rate logic: Base currency is INR
         let exchangeRate = 1;
-
         if (userCurrency !== "INR") {
             try {
                 // Fetch rates with INR as the baseline
@@ -72,8 +71,8 @@ const calculateBudget = async (req, res) => {
         const baseFood = (COST_MULTIPLIERS.food[dailyFoodPreference] || 1200) * seasonMult;
 
         // 5. Cost breakdown in target currency
-        // Transport: ~₹600/day/traveler (autos, cabs, metro)
-        // Insurance: ~₹150/day/traveler (standard domestic travel cover)
+        // Transport: ~600/day/traveler (autos, cabs, metro)
+        // Insurance: ~150/day/traveler (standard domestic travel cover)
         const breakdown = {
             accomodation: Math.round(baseAccommodation * duration * exchangeRate),
             food: Math.round(baseFood * duration * numTravelers * exchangeRate),
