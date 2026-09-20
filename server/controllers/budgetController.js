@@ -49,12 +49,17 @@ const calculateBudget = async (req, res) => {
 
         // 3. Exchange rate logic: Base currency is INR
         let exchangeRate = 1;
+
         if (userCurrency !== "INR") {
             try {
                 // Fetch rates with INR as the baseline
                 const rateRes = await axios.get("https://open.er-api.com/v6/latest/INR", { timeout: 4000 });
-                if (rateRes.data?.rates?.[userCurrency]) {
-                    exchangeRate = rateRes.data.rates[userCurrency];
+
+                const data = rateRes && rateRes.data;
+                const rates = data && data.rates;
+
+                if (rates && rates[userCurrency]) {
+                    exchangeRate = rates[userCurrency];
                 }
             } catch (e) {
                 console.warn("Currency API failed, defaulting exchange rate to 1.0 (INR)");
