@@ -1,8 +1,10 @@
 import express from 'express';
-import { calculateBudget } from '../controllers/budgetController.js';
+import budgetController from '../controllers/budgetController.js';
+import authMiddleware from '../middleware/authMw.js';
 
 const router = express.Router();
 
-router.post('/calculate', calculateBudget);
+// Protect calculation route
+router.post('/calculate', authMiddleware, budgetController.calculateBudget);
 
 export default router;

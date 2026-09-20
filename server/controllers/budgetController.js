@@ -34,6 +34,10 @@ const calculateBudget = async (req, res) => {
         }
 
         // 2. Destructure inputs
+        if (!req.user?._id) {
+            return res.status(401).json({ error: "Authentication required to calculate budget" });
+        }
+
         const { destination, inputs = {} } = req.body;
 
         if (!destination) {
@@ -42,7 +46,7 @@ const calculateBudget = async (req, res) => {
 
         const duration = Math.max(1, parseInt(inputs.duration, 10) || 1);
         const numTravelers = Math.max(1, parseInt(inputs.numTravelers, 10) || 1);
-        const accomodationType = inputs.accomodationType || "mid-range";
+        const accommodationType = inputs.accommodationType || inputs.accomodationType || "mid-range";
         const dailyFoodPreference = inputs.dailyFoodPreference || "mix";
         const travelSeason = inputs.travelSeason || "shoulder";
         const userCurrency = (inputs.userCurrency || "INR").toUpperCase();
@@ -67,31 +71,32 @@ const calculateBudget = async (req, res) => {
 
         // 4. Calculate adjusted base costs
         const seasonMult = SEASON_FACTORS[travelSeason] || 1.0;
-        const baseAccommodation = (COST_MULTIPLIERS.accomodation[accomodationType] || 3500) * seasonMult;
+        const baseAccommodation = (COST_MULTIPLIERS.accommodation[accommodationType] || 3500) * seasonMult;
         const baseFood = (COST_MULTIPLIERS.food[dailyFoodPreference] || 1200) * seasonMult;
 
         // 5. Cost breakdown in target currency
         // Transport: ~600/day/traveler (autos, cabs, metro)
         // Insurance: ~150/day/traveler (standard domestic travel cover)
         const breakdown = {
-            accomodation: Math.round(baseAccommodation * duration * exchangeRate),
+            accommodation: Math.round(baseAccommodation * duration * exchangeRate),
             food: Math.round(baseFood * duration * numTravelers * exchangeRate),
             transport: Math.round(600 * duration * numTravelers * exchangeRate),
             insurance: Math.round(150 * duration * numTravelers * exchangeRate),
         };
 
         const subtotal = Object.values(breakdown).reduce((a, b) => a + b, 0);
-        const miscellaneous = Math.round(subtotal * 0.10); // 10% miscellaneous
-        const emergencyBuffer = Math.round((subtotal + miscellaneous) * 0.15); // 15% emergency contingency
+        const miscellaneous = Math.round(subtotal * 0.10);
+        const emergencyBuffer = Math.round((subtotal + miscellaneous) * 0.15);
         const total = subtotal + miscellaneous + emergencyBuffer;
+        const perPerson = Math.round(total / numTravelers);
 
         // 6. Save document to MongoDB
         const budget = await Budget.create({
             userId: req.user._id,
             destination,
             currency: userCurrency,
-            inputs: { ...inputs, duration, numTravelers, userCurrency },
-            breakdown: { ...breakdown, miscellaneous, emergencyBuffer, total },
+            inputs: { ...inputs, duration, numTravelers, accommodationType, travelSeason, dailyFoodPreference, userCurrency },
+            breakdown: { ...breakdown, miscellaneous, emergencyBuffer, total, perPerson },
         });
 
         return res.status(201).json({

@@ -26,7 +26,7 @@ const budgetSchema = new Schema(
       duration: { type: Number, required: true, min: 1 },
       numTravelers: { type: Number, default: 1, min: 1 },
       accommodationType: { type: String, lowercase: true, trim: true },
-      travelSession: { type: String, lowercase: true, trim: true },
+      travelSeason: { type: String, lowercase: true, trim: true },
       dailyFoodPreference: { type: String, lowercase: true, trim: true },
       userCurrency: { type: String, default: 'INR', uppercase: true },
     },
