@@ -1,23 +1,51 @@
 import { Wallet } from "lucide-react";
 
-function BudgetSelector({ value, onChange }) {
+function BudgetSelector({ budgetMin, budgetMax, onChange }) {
   const budgets = [
     {
-      value: "budget",
+      id: "budget",
       title: "Budget",
       price: "₹5k – ₹10k",
+      min: "5000",
+      max: "10000",
     },
     {
-      value: "moderate",
+      id: "moderate",
       title: "Moderate",
       price: "₹10k – ₹25k",
+      min: "10000",
+      max: "25000",
     },
     {
-      value: "luxury",
+      id: "premium",
       title: "Premium",
       price: "₹25k+",
+      min: "25000",
+      max: "100000",
     },
   ];
+
+  const selectedBudget = budgets.find(
+    (item) =>
+      budgetMin === item.min &&
+      budgetMax === item.max
+  );
+
+  const handleBudgetChange = (item) => {
+    onChange({
+      target: {
+        name: "budgetMin",
+        value: item.min,
+      },
+    });
+
+    onChange({
+      target: {
+        name: "budgetMax",
+        value: item.max,
+      },
+    });
+  };
 
   return (
     <div>
@@ -29,15 +57,15 @@ function BudgetSelector({ value, onChange }) {
       <div className="grid gap-3 sm:grid-cols-3">
         {budgets.map((item) => (
           <label
-            key={item.value}
+            key={item.id}
             className="cursor-pointer"
           >
             <input
               type="radio"
               name="budget"
-              value={item.value}
-              checked={value === item.value}
-              onChange={onChange}
+              value={item.id}
+              checked={selectedBudget?.id === item.id}
+              onChange={() => handleBudgetChange(item)}
               className="peer sr-only"
             />
 

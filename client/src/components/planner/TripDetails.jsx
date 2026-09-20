@@ -2,7 +2,7 @@ import { CalendarDays, Users } from "lucide-react";
 
 function TripDetails({
   duration,
-  travelers,
+  numTravelers,
   onChange,
 }) {
   return (
@@ -31,16 +31,16 @@ function TripDetails({
         </select>
       </div>
 
-      {/* Travelers */}
+      {/* Number of Travelers */}
       <div>
         <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
           <Users size={18} />
-          Travelers
+          Number of Travelers
         </label>
 
         <select
-          name="travelers"
-          value={travelers}
+          name="numTravelers"
+          value={numTravelers}
           onChange={onChange}
           className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3.5 outline-none focus:border-black focus:ring-2 focus:ring-gray-200"
         >
