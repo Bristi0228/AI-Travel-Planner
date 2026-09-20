@@ -217,7 +217,7 @@ const getSharedTrip = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: 'Failed to retrieve shared trip', error: error.message });
     }
-}
+};
 
 
 
