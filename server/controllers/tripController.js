@@ -25,8 +25,8 @@ const generateTrip = async (req, res) => {
         const travelStyle = inputs.travelStyle || 'Standard';
 
         let interests;
-        if (Array.isArray(inputs.interest)) {
-            interests = inputs.interest.join(', ');
+        if (Array.isArray(inputs.interests)) {
+            interests = inputs.interests.join(', ');
         } else {
             interests = 'general sightseeing';
         }
@@ -129,58 +129,78 @@ const getTripHistory = async (req, res) => {
 // Get trip by ID for authenticated user (token)
 const getTripById = async (req, res) => {
     try {
-        const trips = await Trip.findOne({
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid trip ID format' });
+        }
+
+        const trip = await Trip.findOne({
             _id: req.params.id,
             userId: req.user._id,
-        })
-        if (!trips) {
+        });
+
+        if (!trip) {
             return res.status(404).json({ message: 'Trip not found' });
         }
-        res.json({ trip: trips });
+
+        return res.status(200).json({ status: 'success', trip });
     } catch (error) {
-        return res.status(500).json({ message: 'Failed to retrieve trip history', error: error.message });
+        console.error('Error fetching trip by ID:', error);
+        return res.status(500).json({ message: 'Failed to retrieve trip', error: error.message });
     }
-}
+};
 
 // Let user share travel itinerary
 const toggleShare = async (req, res) => {
     try {
-        const trips = await Trip.findOne({
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid trip ID format' });
+        }
+
+        const trip = await Trip.findOne({
             _id: req.params.id,
             userId: req.user._id,
         });
-        if (!trips) {
+
+        if (!trip) {
             return res.status(404).json({ message: 'Trip not found' });
         }
-        trips.isPublic = !trips.isPublic;
 
-        if (!trips.shareId){
-            trips.shareId = uuidv4();
+        trip.isPublic = !trip.isPublic;
+        if (!trip.shareId) {
+            trip.shareId = uuidv4();
         }
-        await trips.save();
-        res.json({ isPublic: trips.isPublic, shareId: trips.shareId });
 
+        await trip.save();
+
+        return res.status(200).json({ status: 'success', isPublic: trip.isPublic, shareId: trip.shareId, });
     } catch (error) {
-        return res.status(500).json({ message: 'Failed to retrieve trip history', error: error.message });
+        console.error('Error toggling share status:', error);
+        return res.status(500).json({ message: 'Failed to update share status', error: error.message });
     }
-}
+};
 
 // Delete a trip by ID for the authenticated user
 const deleteTrip = async (req, res) => {
     try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid trip ID format' });
+        }
+
         const trip = await Trip.findOneAndDelete({
             _id: req.params.id,
             userId: req.user._id,
         });
+
         if (!trip) {
             return res.status(404).json({ message: 'Trip not found or unauthorized' });
         }
-        res.json({ message: "trip deleted successfully"})
-       
+
+        return res.status(200).json({ status: 'success', message: 'Trip deleted successfully' });
     } catch (error) {
-        return res.status(500).json({ message: 'Failed to retrieve trip history', error: error.message });
+        console.error('Error deleting trip:', error);
+        return res.status(500).json({ message: 'Failed to delete trip', error: error.message });
     }
-}
+};
 
 // Share anyone by ID
 const getSharedTrip = async (req, res) => {
@@ -193,7 +213,7 @@ const getSharedTrip = async (req, res) => {
         if(!trip){
             return res.status(404).json({error: "This trip is either private or does not exist"});
         }
-        res.json({ trip });
+        return res.status(200).json({ status: 'success', trip });
     } catch (error) {
         return res.status(500).json({ message: 'Failed to retrieve shared trip', error: error.message });
     }
