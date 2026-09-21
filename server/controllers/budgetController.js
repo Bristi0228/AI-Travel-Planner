@@ -7,7 +7,7 @@ const geminiai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 // Realistic Indian daily baseline rates (INR)
 const COST_MULTIPLIERS = {
-    accomodation: {
+    accommodation: {
         hostel: 800,           // Hostels / dorms (Zostel, etc.)
         "budget-hotel": 1800,  // Standard budget stays / guesthouses
         "mid-range": 3500,     // 3-star / comfortable business hotels
@@ -23,7 +23,8 @@ const COST_MULTIPLIERS = {
         "fine-dining": 4500,   // Premium dining / luxury property restaurants
     },
 };
-const SEASON_FACTORS = { peak: 1.3, shoulder: 1.0, "off-peak": 0.75 };
+const SEASON_FACTORS = { peak: 1.3, summer: 1.2, winter: 1.3, monsoon: 0.75, shoulder: 1.0, 
+ "off-peak": 0.75 };
 
 // Function for budget calcutaion
 const calculateBudget = async (req, res) => {
@@ -34,10 +35,6 @@ const calculateBudget = async (req, res) => {
         }
 
         // 2. Destructure inputs
-        if (!req.user?._id) {
-            return res.status(401).json({ error: "Authentication required to calculate budget" });
-        }
-
         const { destination, inputs = {} } = req.body;
 
         if (!destination) {
@@ -110,6 +107,25 @@ const calculateBudget = async (req, res) => {
     }
 };
 
+const getHistory = async (req, res) => {
+    try {
+        const budgets = await Budget.find({ userId: req.user._id })
+            .sort({ createdAt: -1 })
+            .limit(50)
+            .lean();
+
+        return res.status(200).json({ 
+            status: "success",
+            count: budgets.length,
+            budgets 
+        });
+    } catch (error) {
+        console.error("Fetch Budget History Error:", error);
+        return res.status(500).json({ error: "Failed to retrieve budget history" });
+    }
+};
+
 export default {
     calculateBudget,
+    getHistory
 };
