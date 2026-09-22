@@ -54,8 +54,11 @@ const calValidation = [
 // Protecting Routes for all routes[Require JWT token]
 router.use(authMiddleware);
 
-// Protect calculation route
-router.post('/calculate', calValidation, validate, budgetController.calculateBudget);
+// Get all history
 router.get('/history', budgetController.getHistory);
+// Calculate budget
+router.post('/calculate', calValidation, validate, budgetController.calculateBudget);
+// Get AI Insight
+router.post('/ai-insights', aiLimiter, budgetController.getAIInsights);
 
 export default router;

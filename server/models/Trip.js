@@ -44,7 +44,12 @@ const tripSchema = new mongoose.Schema(
     }
 );
 
-
+tripSchema.virtual("formattedDate").get(function(){
+    return this.createdAt.toLocaleDateString("en-IN", {
+        month: "long",
+        year: "numeric",
+    });
+});
 
 const Trip = mongoose.model('Trip', tripSchema);
 export default Trip;
