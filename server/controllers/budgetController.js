@@ -107,6 +107,7 @@ const calculateBudget = async (req, res) => {
     }
 };
 
+// Function for getting history
 const getHistory = async (req, res) => {
     try {
         const budgets = await Budget.find({ userId: req.user._id })
@@ -118,7 +119,7 @@ const getHistory = async (req, res) => {
             status: "success",
             count: budgets.length,
             budgets 
-        });
+        } || []);
     } catch (error) {
         console.error("Fetch Budget History Error:", error);
         return res.status(500).json({ error: "Failed to retrieve budget history" });
