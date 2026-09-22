@@ -60,7 +60,50 @@ const budgetSchema = new Schema(
   }
 );
 
+// Auto calculate total before saving
+// Note: This to access the ducument
 
+// budgetSchema.pre('save', function(){
+//   this.currency = this.inputs.userCurrency || "INR";
+
+//   const b = this.breakdown;
+
+//   // Calculate the total
+//   const total = (Number(b.accommodation) || 0) + 
+//     (Number(b.food) || 0) + 
+//     (Number(b.flights) || 0) +
+//     (Number(b.transport) || 0) +
+//     (Number(b.insurance) || 0) +
+//     (Number(b.miscellaneous) || 0) +
+//     (Number(b.emergencyBuffer) || 0);
+
+//   this.breakdown.total = Math.round(total);
+
+//   // Calculate travellers
+//   const travelers = Math.max(1, this.inputs.numTravelers || 1);
+//   this.breakdown.perPerson = Math.round(total / travelers);
+// });
+
+budgetSchema.virtual("formulatedTotal").get(function () {
+  try {
+    return new Intl.NumberFormat("en-IN", {
+      style: "currency",
+      currency: this.currency || "INR",
+    }).format(this.breakdown.total);
+  } catch (error) {
+    return `${this.currency} ${this.breakdown.total}`;
+  }
+});
+
+// Calculate daily burn rate (total / duration)
+budgetSchema.virtual("dailyBurnRate").get(function(){
+  if(!this.inputs.duration || this.inputs.duration <= 0){
+    return 0;
+  }
+  else{
+    return Math.round(this.breakdown.total / this.inputs.duration);
+  }
+})
 
 const Budget = mongoose.models.Budget || model("Budget", budgetSchema);
 

@@ -112,14 +112,13 @@ const getHistory = async (req, res) => {
     try {
         const budgets = await Budget.find({ userId: req.user._id })
             .sort({ createdAt: -1 })
-            .limit(50)
-            .lean();
+            .limit(50);
 
         return res.status(200).json({ 
             status: "success",
             count: budgets.length,
             budgets 
-        } || []);
+        });
     } catch (error) {
         console.error("Fetch Budget History Error:", error);
         return res.status(500).json({ error: "Failed to retrieve budget history" });
