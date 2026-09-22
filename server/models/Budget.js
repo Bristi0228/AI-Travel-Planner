@@ -4,7 +4,7 @@ const budgetSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
       index: true,
     },
@@ -15,12 +15,12 @@ const budgetSchema = new Schema(
     },
     destinationImage: {
       type: String,
-      default: '',
+      default: "https://unsplash.com/photos/palm-trees-against-blue-sky-IRP6_qeKkKc",
     },
     currency: {
       type: String,
       uppercase: true,
-      default: 'INR',
+      default: "INR",
     },
     inputs: {
       duration: { type: Number, required: true, min: 1 },
@@ -28,7 +28,7 @@ const budgetSchema = new Schema(
       accommodationType: { type: String, lowercase: true, trim: true },
       travelSeason: { type: String, lowercase: true, trim: true },
       dailyFoodPreference: { type: String, lowercase: true, trim: true },
-      userCurrency: { type: String, default: 'INR', uppercase: true },
+      userCurrency: { type: String, default: "INR", uppercase: true },
     },
     breakdown: {
       accommodation: { type: Number, default: 0 },
@@ -49,8 +49,8 @@ const budgetSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ['active', 'archived'],
-      default: 'active',
+      enum: ["active", "archived"],
+      default: "active",
     },
   },
   {
@@ -60,30 +60,8 @@ const budgetSchema = new Schema(
   }
 );
 
-// Auto calculate total before saving
-// Note: This to access the ducument
 
-// budgetSchema.pre('save', function(){
-//   this.currency = this.inputs.userCurrency || "INR";
 
-//   const b = this.breakdown;
-
-//   // Calculate the total
-//   const total = (Number(b.accommodation) || 0) + 
-//     (Number(b.food) || 0) + 
-//     (Number(b.flights) || 0) +
-//     (Number(b.transport) || 0) +
-//     (Number(b.insurance) || 0) +
-//     (Number(b.miscellaneous) || 0) +
-//     (Number(b.emergencyBuffer) || 0);
-
-//   this.breakdown.total = Math.round(total);
-
-//   // Calculate travellers
-//   const travelers = Math.max(1, this.inputs.numTravelers || 1);
-//   this.breakdown.perPerson = Math.round(total / travelers);
-// });
-
-const Budget = mongoose.models.Budget || model('Budget', budgetSchema);
+const Budget = mongoose.models.Budget || model("Budget", budgetSchema);
 
 export default Budget;
