@@ -196,10 +196,10 @@ const getAIInsights = async (req, res) => {
         // }
 
         // Update the document using the correct schema key name 'aiInsights'
-        const updatedBudget = await Budget.findByIdAndUpdate(
-            budgetId,
+        const updatedBudget = await Budget.findOneAndUpdate(
+            { _id: budgetId, userId: req.user._id },
             { aiInsights },
-            { new: true }
+            { returnDocument: 'after' }
         );
 
         return res.status(200).json({
