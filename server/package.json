@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
-  "author": "Shreyan",
+  "author": "Shreyan_Dey, Prerana_Bairagi, Bristi_Chakraborty, Sonal_Kumari",
   "type": "module",
   "main": "server.js",
   "scripts": {
