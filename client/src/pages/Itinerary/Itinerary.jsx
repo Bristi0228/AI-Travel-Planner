@@ -12,7 +12,8 @@ import {
   Utensils,
   MapPin,
   ArrowLeft,
-  Sparkles,
+  Compass,
+  Heart,
   CheckCircle2,
   CloudSun,
   IndianRupee,
@@ -23,9 +24,7 @@ function Itinerary() {
 
   const [trip, setTrip] = useState(location.state || null);
 
-  // =========================================================
   // LOAD SAVED TRIP
-  // =========================================================
 
   useEffect(() => {
     if (location.state) {
@@ -52,9 +51,7 @@ function Itinerary() {
     }
   }, [location.state]);
 
-  // =========================================================
   // NO TRIP AVAILABLE
-  // =========================================================
 
   if (!trip) {
     return (
@@ -85,9 +82,7 @@ function Itinerary() {
     );
   }
 
-  // =========================================================
   // PREPARE TRIP DATA
-  // =========================================================
 
   const interests = Array.isArray(trip.interests)
     ? trip.interests
@@ -97,9 +92,7 @@ function Itinerary() {
     ? trip.itinerary
     : [];
 
-  // =========================================================
   // FORMAT BUDGET
-  // =========================================================
 
   const formatBudget = () => {
     const min = Number(trip.budgetMin);
@@ -120,9 +113,7 @@ function Itinerary() {
       : `Up to ₹${max.toLocaleString("en-IN")}`;
   };
 
-  // =========================================================
   // FORMAT DATE
-  // =========================================================
 
   const formatDate = (date) => {
     if (!date) {
@@ -142,9 +133,7 @@ function Itinerary() {
     });
   };
 
-  // =========================================================
   // PACKING LIST
-  // =========================================================
 
   const packingList = [
     "Comfortable walking shoes",
@@ -160,7 +149,7 @@ function Itinerary() {
       <div className="min-h-screen w-full overflow-x-hidden bg-gray-50">
         <main className="mx-auto w-full max-w-6xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
 
-          {/* ================= TOP ACTIONS ================= */}
+          {/* TOP ACTIONS */}
 
           <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
             <Link
@@ -179,11 +168,11 @@ function Itinerary() {
             </Link>
           </div>
 
-          {/* ================= HEADER ================= */}
+          {/* HEADER */}
 
           <section className="mb-8">
             <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-4 py-2 text-xs font-bold tracking-wide text-indigo-600">
-              <Sparkles size={14} />
+              <Compass size={14} />
               PERSONALIZED TRAVEL ITINERARY
             </div>
 
@@ -197,7 +186,7 @@ function Itinerary() {
             </p>
           </section>
 
-          {/* ================= SUMMARY CARDS ================= */}
+          {/* SUMMARY CARDS */}
 
           <section className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <SummaryCard
@@ -231,7 +220,7 @@ function Itinerary() {
             />
           </section>
 
-          {/* ================= TRIP DETAILS ================= */}
+          {/* TRIP DETAILS */}
 
           <section className="mb-10 rounded-3xl border border-gray-200 bg-white p-5 shadow-sm sm:p-7">
             <SectionHeading
@@ -258,12 +247,12 @@ function Itinerary() {
             </div>
           </section>
 
-          {/* ================= INTERESTS ================= */}
+          {/* INTERESTS  */}
 
           {interests.length > 0 && (
             <section className="mb-10 rounded-3xl border border-gray-200 bg-white p-5 shadow-sm sm:p-7">
               <SectionHeading
-                icon={<Sparkles size={20} />}
+                icon={<Heart size={20} />}
                 title="Your Interests"
                 description="Preferences used while creating your itinerary."
               />
@@ -281,7 +270,7 @@ function Itinerary() {
             </section>
           )}
 
-          {/* ================= MAP ================= */}
+          {/* MAP */}
 
           <section className="mb-10 overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm">
             <div className="p-5 sm:p-7">
@@ -297,7 +286,7 @@ function Itinerary() {
             </div>
           </section>
 
-          {/* ================= ITINERARY ================= */}
+          {/* ITINERARY */}
 
           <section className="mb-10">
             <div className="mb-6">
@@ -345,7 +334,7 @@ function Itinerary() {
                     key={day.day}
                     className="rounded-3xl border border-gray-200 bg-white p-5 shadow-sm sm:p-7"
                   >
-                    {/* ================= DAY HEADER ================= */}
+                    {/* DAY HEADER */}
 
                     <div className="mb-7 flex items-center gap-4">
                       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 font-bold text-white shadow-md shadow-indigo-100">
@@ -363,7 +352,7 @@ function Itinerary() {
                       </div>
                     </div>
 
-                    {/* ================= MORNING ================= */}
+                    {/* MORNING */}
 
                     <Activity
                       icon={<MapPin size={20} />}
@@ -371,7 +360,7 @@ function Itinerary() {
                       activity={day.morning}
                     />
 
-                    {/* ================= AFTERNOON ================= */}
+                    {/* AFTERNOON */}
 
                     <Activity
                       icon={<Utensils size={20} />}
@@ -379,7 +368,7 @@ function Itinerary() {
                       activity={day.afternoon}
                     />
 
-                    {/* ================= EVENING ================= */}
+                    {/* EVENING */}
 
                     <Activity
                       icon={<Camera size={20} />}
@@ -393,7 +382,7 @@ function Itinerary() {
             )}
           </section>
 
-          {/* ================= INSIGHTS + PACKING ================= */}
+          {/* INSIGHTS + PACKING  */}
 
           <section className="mb-10 grid gap-6 lg:grid-cols-2">
 
@@ -453,7 +442,7 @@ function Itinerary() {
             </div>
           </section>
 
-          {/* ================= BUDGET ================= */}
+          {/* BUDGET */}
 
           <section className="mb-10 rounded-3xl border border-gray-200 bg-white p-5 shadow-sm sm:p-7">
             <SectionHeading
@@ -480,7 +469,7 @@ function Itinerary() {
             </div>
           </section>
 
-          {/* ================= TRAVEL INFORMATION ================= */}
+          {/* TRAVEL INFORMATION  */}
 
           <section className="mb-10 rounded-3xl border border-gray-200 bg-white p-5 shadow-sm sm:p-7">
             <SectionHeading
@@ -498,7 +487,7 @@ function Itinerary() {
             </div>
           </section>
 
-          {/* ================= BOTTOM ACTIONS ================= */}
+          {/*BOTTOM ACTIONS */}
 
           <div className="flex flex-col gap-3 pb-8 sm:flex-row sm:justify-center">
             <Link

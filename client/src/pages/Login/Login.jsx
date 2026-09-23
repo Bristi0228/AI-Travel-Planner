@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import { LogIn, Mail, Lock, Sparkles, ArrowRight } from "lucide-react";
+import { LogIn, Mail, Lock, Plane, ArrowRight } from "lucide-react";
 
 function Login() {
   const navigate = useNavigate();
@@ -221,7 +221,7 @@ function Login() {
 
             {/* Frontend indicator */}
             <div className="mt-6 flex items-center justify-center gap-2 text-xs text-gray-400">
-              <Sparkles size={14} />
+              <Plane size={14} />
               <span>AI Travel Planner</span>
             </div>
 

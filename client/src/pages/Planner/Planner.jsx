@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
 import {
-  Sparkles,
+  MapPinned,
+  Route,
   MapPin,
   Loader2,
   CheckCircle2,
@@ -34,7 +35,6 @@ function Planner() {
 
   // =========================================================
   // FORM CHANGE
-  // =========================================================
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -400,7 +400,7 @@ function Planner() {
           <div className="mx-auto mb-8 max-w-3xl text-center sm:mb-10">
 
             <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-200">
-              <Sparkles size={27} />
+              <MapPinned size={27} />
             </div>
 
             <h1 className="break-words text-3xl font-extrabold tracking-tight text-gray-950 sm:text-4xl md:text-5xl">
@@ -500,7 +500,7 @@ function Planner() {
                     </>
                   ) : (
                     <>
-                      <Sparkles
+                      <Route
                         size={20}
                         className="shrink-0 !text-white"
                       />

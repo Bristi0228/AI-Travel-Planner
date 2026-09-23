@@ -9,6 +9,7 @@ function TripDetails({
     <div className="grid gap-6 md:grid-cols-2">
 
       {/* Duration */}
+      
       <div>
         <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
           <CalendarDays size={18} />
@@ -32,6 +33,7 @@ function TripDetails({
       </div>
 
       {/* Number of Travelers */}
+
       <div>
         <label className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800">
           <Users size={18} />

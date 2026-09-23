@@ -4,7 +4,9 @@ import Layout from "../../components/layout/Layout";
 
 import {
   Map,
-  Sparkles,
+  Navigation,
+  FileCheck2,
+  Heart,
   Plus,
   ArrowRight,
   CalendarDays,
@@ -21,9 +23,9 @@ function Dashboard() {
 
   const [savedTrips, setSavedTrips] = useState([]);
 
-  // =========================
+
   // LOAD SAVED TRIPS
-  // =========================
+ 
   useEffect(() => {
     loadTrips();
   }, []);
@@ -43,9 +45,8 @@ function Dashboard() {
     }
   };
 
-  // =========================
   // DELETE TRIP
-  // =========================
+ 
   const handleDeleteTrip = (tripId) => {
     const shouldDelete = window.confirm(
       "Are you sure you want to delete this trip?"
@@ -65,18 +66,16 @@ function Dashboard() {
     );
   };
 
-  // =========================
   // VIEW ITINERARY
-  // =========================
+  
   const handleViewTrip = (trip) => {
     navigate("/itinerary", {
       state: trip,
     });
   };
 
-  // =========================
   // UNIQUE DESTINATIONS
-  // =========================
+  
   const uniqueDestinations = new Set(
     savedTrips
       .map((trip) => trip?.destination?.trim())
@@ -84,9 +83,8 @@ function Dashboard() {
       .map((destination) => destination.toLowerCase())
   ).size;
 
-  // =========================
   // FORMAT BUDGET
-  // =========================
+  
   const formatBudget = (trip) => {
     const min = Number(trip?.budgetMin);
     const max = Number(trip?.budgetMax);
@@ -108,9 +106,8 @@ function Dashboard() {
     return `Up to ₹${max.toLocaleString("en-IN")}`;
   };
 
-  // =========================
   // FORMAT DATE
-  // =========================
+  
   const formatCreatedDate = (date) => {
     if (!date) return "";
 
@@ -132,13 +129,13 @@ function Dashboard() {
       <div className="min-h-screen w-full overflow-x-hidden bg-gray-50">
         <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
 
-          {/* ================= HEADER ================= */}
+          {/*  HEADER  */}
           <section className="mb-10">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
               
               <div className="min-w-0">
                 <div className="inline-flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-indigo-600">
-                  <Sparkles size={14} />
+                  <Navigation size={14} />
                   Travel Dashboard
                 </div>
 
@@ -163,7 +160,7 @@ function Dashboard() {
             </div>
           </section>
 
-          {/* ================= STATS ================= */}
+          {/* STATS  */}
           <section className="mb-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
             <StatCard
@@ -174,7 +171,7 @@ function Dashboard() {
             />
 
             <StatCard
-              icon={<Sparkles size={23} />}
+              icon={<FileCheck2 size={23} />}
               label="Generated Plans"
               value={savedTrips.length}
               description="Personalized plans created."
@@ -190,7 +187,7 @@ function Dashboard() {
 
           </section>
 
-          {/* ================= SAVED TRIPS ================= */}
+          {/*  SAVED TRIPS  */}
           <section className="mb-10">
 
             <div className="mb-6">
@@ -205,7 +202,7 @@ function Dashboard() {
 
             {savedTrips.length === 0 ? (
 
-              /* ================= EMPTY STATE ================= */
+              /*  EMPTY STATE  */
               <div className="rounded-3xl border border-dashed border-gray-300 bg-white px-5 py-14 text-center shadow-sm sm:px-10">
 
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
@@ -233,7 +230,8 @@ function Dashboard() {
 
             ) : (
 
-              /* ================= TRIP CARDS ================= */
+              /*  TRIP CARDS  */
+
               <div className="grid gap-5 lg:grid-cols-2">
 
                 {savedTrips.map((trip) => (
@@ -295,7 +293,7 @@ function Dashboard() {
                       )}
 
                       {/* Details */}
-                      <div className="mt-6 grid grid-cols-2 gap-3">
+                      <div className="mt-6 grid grid-cols-1 gap-3 min-[420px]:grid-cols-2">
 
                         <InfoBox
                           icon={<CalendarDays size={18} />}
@@ -324,7 +322,7 @@ function Dashboard() {
                         />
 
                         <InfoBox
-                          icon={<Sparkles size={18} />}
+                          icon={<Heart size={18} />}
                           label="Interests"
                           value={
                             Array.isArray(trip.interests)
@@ -396,7 +394,7 @@ function Dashboard() {
 
           </section>
 
-          {/* ================= CREATE NEW TRIP ================= */}
+          {/*  CREATE NEW TRIP */}
           <section className="rounded-3xl bg-gradient-to-br from-gray-900 to-gray-800 p-7 text-center text-white shadow-xl sm:p-10">
 
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10">
@@ -428,7 +426,7 @@ function Dashboard() {
   );
 }
 
-/* ================= STAT CARD ================= */
+/*  STAT CARD  */
 
 function StatCard({
   icon,
@@ -458,7 +456,7 @@ function StatCard({
   );
 }
 
-/* ================= INFO BOX ================= */
+/*  INFO BOX  */
 
 function InfoBox({ icon, label, value }) {
   return (

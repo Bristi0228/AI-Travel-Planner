@@ -4,7 +4,7 @@ function InterestSelector({ selectedInterests, onChange }) {
   return (
     <div>
       <label className="mb-3 block text-sm font-semibold text-gray-800">
-        ❤️ What are you interested in?
+         What are you interested in?
       </label>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">

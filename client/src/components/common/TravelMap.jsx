@@ -9,9 +9,7 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// =========================================================
-// ================= LEAFLET MARKER FIX ====================
-// =========================================================
+// LEAFLET MARKER FIX 
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -26,9 +24,8 @@ L.Icon.Default.mergeOptions({
     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-// =========================================================
-// ================= MAP VIEW CONTROLLER ===================
-// =========================================================
+// MAP VIEW CONTROLLER 
+
 
 function ChangeMapView({ position }) {
   const map = useMap();
@@ -44,18 +41,14 @@ function ChangeMapView({ position }) {
   return null;
 }
 
-// =========================================================
-// ================= TRAVEL MAP COMPONENT =================
-// =========================================================
+// TRAVEL MAP COMPONENT 
 
 function TravelMap({ destination }) {
   const [position, setPosition] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // =========================================================
-  // ================= FIND DESTINATION ======================
-  // =========================================================
+  // FIND DESTINATION 
 
   useEffect(() => {
     const findDestination = async () => {
@@ -115,9 +108,7 @@ function TravelMap({ destination }) {
     findDestination();
   }, [destination]);
 
-  // =========================================================
-  // ================= LOADING STATE =========================
-  // =========================================================
+  //  LOADING STATE 
 
   if (loading) {
     return (
@@ -133,9 +124,7 @@ function TravelMap({ destination }) {
     );
   }
 
-  // =========================================================
-  // ================= ERROR STATE ===========================
-  // =========================================================
+  //ERROR STATE 
 
   if (error || !position) {
     return (
@@ -158,9 +147,7 @@ function TravelMap({ destination }) {
     );
   }
 
-  // =========================================================
-  // ================= MAP DISPLAY ===========================
-  // =========================================================
+  // MAP DISPLAY 
 
   return (
     <div className="relative h-full w-full overflow-hidden">
@@ -179,7 +166,7 @@ function TravelMap({ destination }) {
 
         <Marker position={position}>
           <Popup>
-            <div className="min-w-[150px]">
+            <div className="w-full min-w-0 max-w-[240px]">
               <p className="font-semibold text-gray-900">
                 {destination}
               </p>
@@ -192,9 +179,7 @@ function TravelMap({ destination }) {
         </Marker>
       </MapContainer>
 
-      {/* =====================================================
-          DESTINATION LABEL
-      ===================================================== */}
+      {/* DESTINATION LABEL */}
 
       <div className="absolute left-3 top-3 z-[1000] max-w-[calc(100%-24px)] rounded-xl bg-white/95 px-4 py-2.5 shadow-md backdrop-blur sm:left-4 sm:top-4">
         <p className="text-xs font-medium text-gray-500">
