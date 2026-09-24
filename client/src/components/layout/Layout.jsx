@@ -1,6 +1,5 @@
-// =========================================================
-// ===================== LAYOUT =============================
-// =========================================================
+
+// LAYOUT
 
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -8,15 +7,15 @@ import Footer from "./Footer";
 function Layout({ children }) {
   return (
     <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-white">
-      {/* ===================== NAVBAR ====================== */}
+      {/*  NAVBAR  */}
       <Navbar />
 
-      {/* ===================== MAIN CONTENT ================ */}
+      {/*  MAIN CONTENT  */}
       <main className="w-full max-w-full min-w-0 overflow-x-hidden">
         {children}
       </main>
 
-      {/* ===================== FOOTER ====================== */}
+      {/* FOOTER */}
       <Footer />
     </div>
   );

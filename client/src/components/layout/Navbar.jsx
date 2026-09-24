@@ -1,6 +1,11 @@
-import { useState } from "react";
+// =========================================================
+// ===================== NAVBAR ==============================
+// =========================================================
+
+import { useEffect, useState } from "react";
 import travelLogo from "../../assets/travel-logo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+
 import {
   Menu,
   X,
@@ -16,25 +21,69 @@ function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // =========================================================
+  // ===================== STATE ==============================
+  // =========================================================
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Frontend-only login state
-  const isLoggedIn =
-    localStorage.getItem("isLoggedIn") === "true";
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true"
+  );
+
+  // =========================================================
+  // ================= LOGIN STATE SYNC =======================
+  // =========================================================
+
+  useEffect(() => {
+    const syncLoginState = () => {
+      setIsLoggedIn(
+        localStorage.getItem("isLoggedIn") === "true"
+      );
+    };
+
+    syncLoginState();
+
+    window.addEventListener(
+      "storage",
+      syncLoginState
+    );
+
+    return () => {
+      window.removeEventListener(
+        "storage",
+        syncLoginState
+      );
+    };
+  }, [location.pathname]);
+
+  // =========================================================
+  // ===================== CLOSE MENU =========================
+  // =========================================================
 
   const closeMenu = () => {
     setMobileMenuOpen(false);
   };
 
+  // =========================================================
+  // ======================== LOGOUT ==========================
+  // =========================================================
+
   const handleLogout = () => {
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("currentUser");
 
+    setIsLoggedIn(false);
     setMobileMenuOpen(false);
 
     alert("Logged out successfully! 👋");
+
     navigate("/");
   };
+
+  // =========================================================
+  // ===================== NAVIGATION =========================
+  // =========================================================
 
   const navLinks = [
     {
@@ -54,13 +103,17 @@ function Navbar() {
     },
   ];
 
+  // =========================================================
+  // =========================== UI ===========================
+  // =========================================================
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 shadow-sm backdrop-blur-md">
+
       <nav className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
-        {/*  LOGO  */}
+        {/* ===================== LOGO ====================== */}
 
-      
         <Link
           to="/"
           onClick={closeMenu}
@@ -79,12 +132,14 @@ function Navbar() {
           </span>
         </Link>
 
-        {/*  DESKTOP NAV  */}
+        {/* ================= DESKTOP NAV =================== */}
 
         <div className="hidden items-center gap-1 lg:flex">
 
           {navLinks.map((link) => {
-            const active = location.pathname === link.path;
+            const active =
+              location.pathname === link.path;
+
             const Icon = link.icon;
 
             return (
@@ -105,7 +160,7 @@ function Navbar() {
 
           <div className="ml-2 h-6 w-px bg-gray-200" />
 
-          {/* Logged in */}
+          {/* ================= LOGGED IN =================== */}
 
           {isLoggedIn ? (
             <button
@@ -118,6 +173,8 @@ function Navbar() {
             </button>
           ) : (
             <>
+              {/* ================= LOGIN =================== */}
+
               <Link
                 to="/login"
                 className="ml-1 inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold text-gray-600 transition duration-200 hover:bg-gray-50 hover:text-indigo-600"
@@ -125,6 +182,8 @@ function Navbar() {
                 <LogIn size={16} />
                 Login
               </Link>
+
+              {/* ================= REGISTER ================ */}
 
               <Link
                 to="/register"
@@ -135,9 +194,10 @@ function Navbar() {
               </Link>
             </>
           )}
+
         </div>
 
-        {/*  MOBILE BUTTON  */}
+        {/* ================= MOBILE BUTTON ================= */}
 
         <button
           type="button"
@@ -158,15 +218,19 @@ function Navbar() {
             <Menu size={23} />
           )}
         </button>
+
       </nav>
 
-      {/*  MOBILE NAV  */}
-      
+      {/* ===================== MOBILE NAV ================= */}
+
       {mobileMenuOpen && (
         <div className="border-t border-gray-200 bg-white shadow-lg lg:hidden">
+
           <div className="mx-auto w-full max-w-7xl min-w-0 px-4 py-4 sm:px-6">
 
             <div className="flex flex-col gap-2">
+
+              {/* ================= MOBILE LINKS ============ */}
 
               {navLinks.map((link) => {
                 const active =
@@ -198,7 +262,8 @@ function Navbar() {
 
               <div className="my-1 h-px bg-gray-100" />
 
-              {/* Mobile logged-in state */}
+              {/* ================= MOBILE AUTH ============== */}
+
               {isLoggedIn ? (
                 <button
                   type="button"
@@ -211,6 +276,8 @@ function Navbar() {
               ) : (
                 <div className="grid grid-cols-1 gap-2 min-[360px]:grid-cols-2">
 
+                  {/* ================= MOBILE LOGIN ========= */}
+
                   <Link
                     to="/login"
                     onClick={closeMenu}
@@ -219,6 +286,8 @@ function Navbar() {
                     <LogIn size={17} />
                     Login
                   </Link>
+
+                  {/* ================= MOBILE REGISTER ====== */}
 
                   <Link
                     to="/register"
@@ -233,9 +302,12 @@ function Navbar() {
               )}
 
             </div>
+
           </div>
+
         </div>
       )}
+
     </header>
   );
 }

@@ -1,6 +1,5 @@
-// =========================================================
-// ===================== FOOTER =============================
-// =========================================================
+
+// FOOTER 
 
 import { Link } from "react-router-dom";
 import {
@@ -14,10 +13,10 @@ import travelLogo from "../../assets/travel-logo.png";
 function Footer() {
   return (
     <footer className="w-full overflow-hidden bg-gray-950 text-white">
-      {/* ===================== MAIN FOOTER ================= */}
+      {/*  MAIN FOOTER  */}
       <div className="mx-auto w-full max-w-7xl px-5 py-12 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
         <div className="grid w-full grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-16">
-          {/* ===================== BRAND ==================== */}
+          {/* BRAND */}
           <div className="min-w-0">
             <Link
               to="/"
@@ -42,7 +41,7 @@ function Footer() {
             </p>
           </div>
 
-          {/* ===================== QUICK LINKS ============== */}
+          {/* QUICK LINKS */}
           <div>
             <h3 className="text-base font-bold text-white sm:text-lg">
               Quick Links
@@ -80,7 +79,7 @@ function Footer() {
             </nav>
           </div>
 
-          {/* ===================== CONTACT ================== */}
+          {/* CONTACT */}
           <div>
             <h3 className="text-base font-bold text-white sm:text-lg">
               Travel Support
@@ -106,7 +105,7 @@ function Footer() {
         </div>
       </div>
 
-      {/* ===================== COPYRIGHT =================== */}
+      {/* COPYRIGHT */}
       <div className="border-t border-gray-800">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-5 py-5 text-xs text-gray-500 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:text-sm lg:px-8">
           <p>© 2026 AI Travel Planner. All Rights Reserved.</p>
